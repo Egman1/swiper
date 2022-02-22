@@ -49,6 +49,7 @@ const Swiper = {
     effect: { type: String, default: undefined },
     breakpoints: { type: Object, default: undefined },
     spaceBetween: { type: Number, default: undefined },
+    slideBy: { type: Number, default: undefined },
     slidesPerView: { type: [Number, String], default: undefined },
     slidesPerGroup: { type: Number, default: undefined },
     slidesPerGroupSkip: { type: Number, default: undefined },

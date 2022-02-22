@@ -14,6 +14,7 @@ export default function Autoplay({ swiper, extendParams, on, emit }) {
   extendParams({
     autoplay: {
       enabled: false,
+      slideBy: 1,
       delay: 3000,
       waitForTransition: true,
       disableOnInteraction: true,
@@ -35,10 +36,22 @@ export default function Autoplay({ swiper, extendParams, on, emit }) {
       if (swiper.params.autoplay.reverseDirection) {
         if (swiper.params.loop) {
           swiper.loopFix();
-          autoplayResult = swiper.slidePrev(swiper.params.speed, true, true);
+          const slideBy = Math.max(1, swiper.params.autoplay.slideBy);
+          autoplayResult = swiper.slideTo(
+            swiper.activeIndex - slideBy,
+            swiper.params.speed,
+            true,
+            true,
+          );
           emit('autoplay');
         } else if (!swiper.isBeginning) {
-          autoplayResult = swiper.slidePrev(swiper.params.speed, true, true);
+          const slideBy = Math.max(1, swiper.params.autoplay.slideBy);
+          autoplayResult = swiper.slideTo(
+            swiper.activeIndex - slideBy,
+            swiper.params.speed,
+            true,
+            true,
+          );
           emit('autoplay');
         } else if (!swiper.params.autoplay.stopOnLastSlide) {
           autoplayResult = swiper.slideTo(
@@ -53,10 +66,22 @@ export default function Autoplay({ swiper, extendParams, on, emit }) {
         }
       } else if (swiper.params.loop) {
         swiper.loopFix();
-        autoplayResult = swiper.slideNext(swiper.params.speed, true, true);
+        const slideBy = Math.max(1, swiper.params.autoplay.slideBy);
+        autoplayResult = swiper.slideTo(
+          swiper.activeIndex + slideBy,
+          swiper.params.speed,
+          true,
+          true,
+        );
         emit('autoplay');
       } else if (!swiper.isEnd) {
-        autoplayResult = swiper.slideNext(swiper.params.speed, true, true);
+        const slideBy = Math.max(1, swiper.params.autoplay.slideBy);
+        autoplayResult = swiper.slideTo(
+          swiper.activeIndex + slideBy,
+          swiper.params.speed,
+          true,
+          true,
+        );
         emit('autoplay');
       } else if (!swiper.params.autoplay.stopOnLastSlide) {
         autoplayResult = swiper.slideTo(0, swiper.params.speed, true, true);
