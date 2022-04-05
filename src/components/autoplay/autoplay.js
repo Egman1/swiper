@@ -13,7 +13,17 @@ const Autoplay = {
     clearTimeout(swiper.autoplay.timeout);
     swiper.autoplay.timeout = nextTick(() => {
       let autoplayResult;
-      if (swiper.params.autoplay.reverseDirection) {
+      if (
+        swiper.params.autoplay.useCustomSlideToFunction &&
+        typeof swiper.params.autoplay.customSlideToFunction === 'function'
+      ) {
+        if (swiper.params.loop) {
+          swiper.loopFix();
+        }
+        const slideTo = swiper.params.autoplay.customSlideToFunction(swiper);
+        autoplayResult = swiper.slideTo(slideTo, swiper.params.speed, true, true);
+        swiper.emit('autoplay');
+      } else if (swiper.params.autoplay.reverseDirection) {
         if (swiper.params.loop) {
           swiper.loopFix();
           const slideBy = Math.max(1, swiper.params.autoplay.slideBy);
@@ -183,6 +193,8 @@ export default {
       stopOnLastSlide: false,
       reverseDirection: false,
       pauseOnMouseEnter: false,
+      useCustomSlideToFunction: false,
+      customSlideToFunction: () => {},
     },
   },
   create() {
