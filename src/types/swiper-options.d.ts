@@ -251,6 +251,14 @@ export interface SwiperOptions {
   spaceBetween?: number;
 
   /**
+   * slide by count.
+   *
+   * @default 1
+   *
+   */
+  slideBy?: number;
+
+  /**
    * Number of slides per view (slides visible at the same time on slider's container).
    * @note If you use it with "auto" value and along with `loop: true` then you need to specify `loopedSlides` parameter with amount of slides to loop (duplicate)
    * @note `slidesPerView: 'auto'` is currently not compatible with multirow mode, when `slidesPerColumn` > 1

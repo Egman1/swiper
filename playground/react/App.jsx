@@ -1,11 +1,13 @@
 /* eslint-disable no-restricted-globals */
 import React from 'react';
-import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from '../../build/core';
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Autoplay} from '../../build/core';
 import { Swiper, SwiperSlide } from '../../build/react';
 
-SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Autoplay]);
 
 const App = () => {
+
+  const slideBy = 2;
   return (
     <main>
       <Swiper
@@ -16,6 +18,7 @@ const App = () => {
         loop
         scrollbar={{ draggable: true }}
         pagination={{ clickable: true }}
+        autoplay={{reverseDirection: false, slideBy}}
       >
         <SwiperSlide>Slide 1</SwiperSlide>
         <SwiperSlide>Slide 2</SwiperSlide>

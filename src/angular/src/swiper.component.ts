@@ -82,6 +82,7 @@ export class SwiperComponent implements OnInit {
   @Input() effect: SwiperOptions['effect'];
   @Input() breakpoints: SwiperOptions['breakpoints'];
   @Input() spaceBetween: SwiperOptions['spaceBetween'];
+  @Input() slideBy: SwiperOptions['slideBy'];
   @Input() slidesPerView: SwiperOptions['slidesPerView'];
   @Input() slidesPerColumn: SwiperOptions['slidesPerColumn'];
   @Input() slidesPerColumnFill: SwiperOptions['slidesPerColumnFill'];
