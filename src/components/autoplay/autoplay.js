@@ -13,13 +13,35 @@ const Autoplay = {
     clearTimeout(swiper.autoplay.timeout);
     swiper.autoplay.timeout = nextTick(() => {
       let autoplayResult;
-      if (swiper.params.autoplay.reverseDirection) {
+      if (
+        swiper.params.autoplay.useCustomSlideToFunction &&
+        typeof swiper.params.autoplay.customSlideToFunction === 'function'
+      ) {
         if (swiper.params.loop) {
           swiper.loopFix();
-          autoplayResult = swiper.slidePrev(swiper.params.speed, true, true);
+        }
+        const slideTo = swiper.params.autoplay.customSlideToFunction(swiper);
+        autoplayResult = swiper.slideTo(slideTo, swiper.params.speed, true, true);
+        swiper.emit('autoplay');
+      } else if (swiper.params.autoplay.reverseDirection) {
+        if (swiper.params.loop) {
+          swiper.loopFix();
+          const slideBy = Math.max(1, swiper.params.autoplay.slideBy);
+          autoplayResult = swiper.slideTo(
+            swiper.activeIndex - slideBy,
+            swiper.params.speed,
+            true,
+            true,
+          );
           swiper.emit('autoplay');
         } else if (!swiper.isBeginning) {
-          autoplayResult = swiper.slidePrev(swiper.params.speed, true, true);
+          const slideBy = Math.max(1, swiper.params.autoplay.slideBy);
+          autoplayResult = swiper.slideTo(
+            swiper.activeIndex - slideBy,
+            swiper.params.speed,
+            true,
+            true,
+          );
           swiper.emit('autoplay');
         } else if (!swiper.params.autoplay.stopOnLastSlide) {
           autoplayResult = swiper.slideTo(
@@ -34,10 +56,22 @@ const Autoplay = {
         }
       } else if (swiper.params.loop) {
         swiper.loopFix();
-        autoplayResult = swiper.slideNext(swiper.params.speed, true, true);
+        const slideBy = Math.max(1, swiper.params.autoplay.slideBy);
+        autoplayResult = swiper.slideTo(
+          swiper.activeIndex + slideBy,
+          swiper.params.speed,
+          true,
+          true,
+        );
         swiper.emit('autoplay');
       } else if (!swiper.isEnd) {
-        autoplayResult = swiper.slideNext(swiper.params.speed, true, true);
+        const slideBy = Math.max(1, swiper.params.autoplay.slideBy);
+        autoplayResult = swiper.slideTo(
+          swiper.activeIndex + slideBy,
+          swiper.params.speed,
+          true,
+          true,
+        );
         swiper.emit('autoplay');
       } else if (!swiper.params.autoplay.stopOnLastSlide) {
         autoplayResult = swiper.slideTo(0, swiper.params.speed, true, true);
@@ -152,12 +186,15 @@ export default {
   params: {
     autoplay: {
       enabled: false,
+      slideBy: 1,
       delay: 3000,
       waitForTransition: true,
       disableOnInteraction: true,
       stopOnLastSlide: false,
       reverseDirection: false,
       pauseOnMouseEnter: false,
+      useCustomSlideToFunction: false,
+      customSlideToFunction: () => {},
     },
   },
   create() {

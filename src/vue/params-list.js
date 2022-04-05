@@ -119,5 +119,6 @@ const paramsList = [
   '_thumbs',
   'virtual',
   'zoom',
+  '_slideBy',
 ];
 export { paramsList };
