@@ -179,6 +179,12 @@ const Swiper = forwardRef(
       return renderLoop(swiperRef.current, slides, swiperParams);
     }
 
+    let renderedSlides = renderSlides();
+
+    renderedSlides = renderedSlides.map((child, index) => {
+      return React.cloneElement(child, { dataSwiperSlideIndexWithClone: index });
+    });
+
     return (
       <Tag
         ref={swiperElRef}
@@ -198,7 +204,7 @@ const Swiper = forwardRef(
         )}
         <WrapperTag className="swiper-wrapper">
           {slots['wrapper-start']}
-          {renderSlides()}
+          {renderedSlides}
           {slots['wrapper-end']}
         </WrapperTag>
         {slots['container-end']}
